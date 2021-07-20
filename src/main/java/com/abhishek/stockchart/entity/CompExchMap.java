@@ -1,5 +1,6 @@
 package com.abhishek.stockchart.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -18,13 +19,15 @@ public class CompExchMap
 
 	private String compCode;
 	
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "comp_id")
+	@ManyToOne(fetch = FetchType.LAZY, optional = true)
+	@JoinColumn(name = "comp_id", referencedColumnName = "compId")
 	private Company company;
 	
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "exch_id")
+	@ManyToOne(fetch = FetchType.LAZY, optional = true)
+	@JoinColumn(name = "exch_id", referencedColumnName = "exchId")
 	private StockExchange stockExchange;
+
+	
 
 	public String getCompCode() {
 		return compCode;
@@ -59,7 +62,12 @@ public class CompExchMap
 		this.compCode = compCode;
 		this.stockExchange = stockExchange;
 	}
-	
+	public CompExchMap(String compCode, Company company, StockExchange stockExchange) {
+		super();
+		this.compCode = compCode;
+		this.company = company;
+		this.stockExchange = stockExchange;
+	}
 	public CompExchMap() {
 		
 	}

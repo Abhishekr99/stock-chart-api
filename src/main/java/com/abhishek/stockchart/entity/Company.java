@@ -1,5 +1,6 @@
 package com.abhishek.stockchart.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -26,9 +27,9 @@ public class Company
 		return compId;
 	}
 
-//	public void setCompId(Long compId) {
-//		this.compId = compId;
-//	}
+	public void setCompId(Long compId) {
+		this.compId = compId;
+	}
 
 	@Override
 	public String toString() {
@@ -115,8 +116,8 @@ public class Company
 	
 	private IpoDetails ipo;
 
-	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL)	
-	private List<CompExchMap> compExchMap;
+	@OneToMany(/*mappedBy = "company", */cascade = CascadeType.ALL)	
+	private List<CompExchMap> compExchMap = new ArrayList<>();
 	/*
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "company", cascade = CascadeType.REMOVE)
 	@JsonIgnore
@@ -133,6 +134,8 @@ public class Company
 	@JsonIgnore
 	private Sector sector;
 	*/
+
+	
 
 	public List<CompExchMap> getCompExchMap() {
 		return compExchMap;
@@ -162,6 +165,20 @@ public class Company
 	}
 	
 	
+	
+	public Company(Long compId, String compName, Double turnover, String ceo, String boardOfDirectors, String compBrief,
+			IpoDetails ipo, List<CompExchMap> compExchMap) {
+		super();
+		this.compId = compId;
+		this.compName = compName;
+		this.turnover = turnover;
+		this.ceo = ceo;
+		this.boardOfDirectors = boardOfDirectors;
+		this.compBrief = compBrief;
+		this.ipo = ipo;
+		this.compExchMap = compExchMap;
+	}
+
 	public Company(){
 		
 	}

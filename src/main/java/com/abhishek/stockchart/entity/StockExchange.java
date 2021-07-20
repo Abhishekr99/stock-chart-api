@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -17,7 +18,7 @@ public class StockExchange
 	private long exchId;
 	private String exchName;
 	private String exchBrief;
-	@OneToMany(mappedBy = "stockExchange", cascade = CascadeType.ALL)	
+	@OneToMany(mappedBy = "stockExchange", cascade = CascadeType.ALL)
 	private List<CompExchMap> compExchMap;
 	
 	public List<CompExchMap> getCompExchMap() {

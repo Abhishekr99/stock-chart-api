@@ -59,6 +59,10 @@ public class IpoDetails
 	public Long getIpoId() {
 		return ipoId;
 	}
+	
+	public void setIpoId(Long ipoId) {
+		this.ipoId = ipoId;
+	}
 	public IpoDetails(Long ipoId, Double pricePerShare, Long noOfShares, LocalDateTime openDateTime, Company company) {
 		super();
 		this.ipoId = ipoId;
