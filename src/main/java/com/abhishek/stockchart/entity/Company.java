@@ -11,6 +11,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -31,6 +34,7 @@ public class Company
 		this.compId = compId;
 	}
 
+	
 	@Override
 	public String toString() {
 		return "Company [compId=" + compId + ", compName=" + compName + ", turnover=" + turnover + ", ceo=" + ceo
@@ -81,7 +85,7 @@ public class Company
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long compId;
 
-
+	
 
 	//@Column(nullable = false)
 	private String compName;
@@ -116,8 +120,23 @@ public class Company
 	
 	private IpoDetails ipo;
 
-	@OneToMany(/*mappedBy = "company", */cascade = CascadeType.ALL)	
-	private List<CompExchMap> compExchMap = new ArrayList<>();
+	/*@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(
+			name = "comp_exch_map",
+			joinColumns = @JoinColumn(
+					name = "comp_id",
+					referencedColumnName = "compId"
+			),
+			inverseJoinColumns = @JoinColumn(
+					name = "exch_id",
+					referencedColumnName = "exchId"
+			)
+	)
+	private List<StockExchange> stockExchanges = new ArrayList<>();*/
+	
+	/*@OneToMany(mappedBy = "company", cascade = CascadeType.ALL)	
+	private List<CompExchMap> compExchMap = new ArrayList<>();*/
+	
 	/*
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "company", cascade = CascadeType.REMOVE)
 	@JsonIgnore
@@ -137,13 +156,13 @@ public class Company
 
 	
 
-	public List<CompExchMap> getCompExchMap() {
-		return compExchMap;
-	}
-
-	public void setCompExchMap(List<CompExchMap> compExchMap) {
-		this.compExchMap = compExchMap;
-	}
+//	public List<CompExchMap> getCompExchMap() {
+//		return compExchMap;
+//	}
+//
+//	public void setCompExchMap(List<CompExchMap> compExchMap) {
+//		this.compExchMap = compExchMap;
+//	}
 
 	public IpoDetails getIpo() {
 		return ipo;
@@ -167,7 +186,7 @@ public class Company
 	
 	
 	public Company(Long compId, String compName, Double turnover, String ceo, String boardOfDirectors, String compBrief,
-			IpoDetails ipo, List<CompExchMap> compExchMap) {
+			IpoDetails ipo) {
 		super();
 		this.compId = compId;
 		this.compName = compName;
@@ -176,20 +195,31 @@ public class Company
 		this.boardOfDirectors = boardOfDirectors;
 		this.compBrief = compBrief;
 		this.ipo = ipo;
-		this.compExchMap = compExchMap;
+		
 	}
 
 	public Company(){
 		
 	}
 	
-	public void addToCompExchList(List<StockExchange> stockExchList, String compCode)
-	{
-		for(StockExchange ele : stockExchList)
-		{
-			this.compExchMap.add(new CompExchMap(compCode,ele));
-		}
-		
-	}
+//	public void addToCompExchList(List<StockExchange> stockExchList, String compCode)
+//	{
+//		for(StockExchange ele : stockExchList)
+//		{
+//			CompExchMap obj = new CompExchMap(compCode,ele);
+//			//obj.getCompany().setCompId(co.getCompId());
+//			this.compExchMap.add(obj);
+//		}
+//		
+//	}
 	
+//	public void addStockExcahnges(List<StockExchange> stockExchList)
+//	{
+//		for(StockExchange ele : stockExchList)
+//		{
+//			stockExchanges.add(ele);
+//		}
+//		
+//	}
+
 }

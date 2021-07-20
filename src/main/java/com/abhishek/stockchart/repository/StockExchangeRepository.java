@@ -6,5 +6,5 @@ import com.abhishek.stockchart.entity.StockExchange;
 
 public interface StockExchangeRepository extends JpaRepository<StockExchange, Long>
 {
-	
+	public StockExchange findByExchName(String exchName);
 }

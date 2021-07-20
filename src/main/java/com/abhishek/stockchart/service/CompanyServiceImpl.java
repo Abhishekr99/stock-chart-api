@@ -35,6 +35,7 @@ public class CompanyServiceImpl implements CompanyService
 	@Override
 	public Company getCompanyByName(String name) {
 		// TODO Auto-generated method stub
+		System.out.println("OUTT: "+companyRepository.findByCompNameIgnoreCase(name));
 		return companyRepository.findByCompNameIgnoreCase(name);
 	}
 
