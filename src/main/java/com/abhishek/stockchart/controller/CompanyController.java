@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.abhishek.stockchart.entity.Company;
+import com.abhishek.stockchart.entity.StockExchange;
+import com.abhishek.stockchart.model.CompExch;
 import com.abhishek.stockchart.service.CompanyService;
 
 
@@ -21,8 +23,13 @@ public class CompanyController
 	private CompanyService companyService;
 	
 	@PostMapping("/company")
-	public Company saveCompany(@RequestBody Company company)
+	public Company saveCompany(@RequestBody Company company/*CompExch compExch*/)
 	{
+		/*Company company = compExch.getCompany();
+		String compCode = compExch.getCompCode();
+		List<StockExchange> stockExchList = compExch.getStockExchList();
+		
+		company.addToCompExchList(stockExchList, compCode);*/
 		return companyService.saveCompany(company);
 	}
 	

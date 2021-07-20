@@ -1,5 +1,7 @@
 package com.abhishek.stockchart.entity;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -74,7 +77,7 @@ public class Company
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long compId;
 
 
@@ -104,7 +107,16 @@ public class Company
 	@Type(type = "text")
 	private String compBrief;
 
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(
+			name = "ipo_id",
+			referencedColumnName = "ipoId"
+	)
+	
+	private IpoDetails ipo;
 
+	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL)	
+	private List<CompExchMap> compExchMap;
 	/*
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "company", cascade = CascadeType.REMOVE)
 	@JsonIgnore
@@ -122,6 +134,22 @@ public class Company
 	private Sector sector;
 	*/
 
+	public List<CompExchMap> getCompExchMap() {
+		return compExchMap;
+	}
+
+	public void setCompExchMap(List<CompExchMap> compExchMap) {
+		this.compExchMap = compExchMap;
+	}
+
+	public IpoDetails getIpo() {
+		return ipo;
+	}
+
+	public void setIpo(IpoDetails ipo) {
+		this.ipo = ipo;
+	}
+
 	public Company(Long compId, String compName, Double turnover, String ceo, String boardOfDirectors,
 			String compBrief) {
 		super();
@@ -133,9 +161,18 @@ public class Company
 		this.compBrief = compBrief;
 	}
 	
+	
 	public Company(){
 		
 	}
 	
+	public void addToCompExchList(List<StockExchange> stockExchList, String compCode)
+	{
+		for(StockExchange ele : stockExchList)
+		{
+			this.compExchMap.add(new CompExchMap(compCode,ele));
+		}
+		
+	}
 	
 }

@@ -1,5 +1,8 @@
 package com.abhishek.stockchart.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,8 +17,17 @@ public class StockExchange
 	private long exchId;
 	private String exchName;
 	private String exchBrief;
+	@OneToMany(mappedBy = "stockExchange", cascade = CascadeType.ALL)	
+	private List<CompExchMap> compExchMap;
 	
-	
+	public List<CompExchMap> getCompExchMap() {
+		return compExchMap;
+	}
+
+	public void setCompExchMap(List<CompExchMap> compExchMap) {
+		this.compExchMap = compExchMap;
+	}
+
 	public long getExchId() {
 		return exchId;
 	}
