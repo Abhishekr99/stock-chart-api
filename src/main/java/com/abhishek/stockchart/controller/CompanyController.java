@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.abhishek.stockchart.entity.CompExchMap;
 import com.abhishek.stockchart.entity.Company;
+import com.abhishek.stockchart.entity.Sector;
 import com.abhishek.stockchart.entity.StockExchange;
 import com.abhishek.stockchart.entity.StockPrice;
 import com.abhishek.stockchart.model.CompExch;
+import com.abhishek.stockchart.model.CompanySectorModel;
 import com.abhishek.stockchart.repository.CompExchMapRepository;
 import com.abhishek.stockchart.repository.CompanyRepository;
+import com.abhishek.stockchart.repository.SectorRepository;
 import com.abhishek.stockchart.repository.StockExchangeRepository;
 import com.abhishek.stockchart.repository.StockPriceRepository;
 import com.abhishek.stockchart.service.CompanyService;
@@ -35,7 +38,7 @@ public class CompanyController
 	private StockExchangeRepository stockExchangeRepository;
 	
 	@Autowired
-	private StockPriceRepository stockPriceRepository;
+	private SectorRepository sectorRepository;
 	
 	@Autowired
 	private CompanyRepository companyRepository;
@@ -44,30 +47,23 @@ public class CompanyController
 	private CompExchMapRepository compExchMapRepository;
 	
 	@PostMapping("/company")
-	public Company saveCompany(@RequestBody Company company)
-	{
-//		Company company = compExch.getCompany();
-//		System.out.println("Compyy: "+company);
-//		String compCode = compExch.getCompCode();
-//		System.out.println("codiy: "+compCode);
-//		List<StockExchange> stockExchList = compExch.getStockExchList();
-//		System.out.println("listyy: "+stockExchList);
-//		
-//		if(stockExchList != null)
-//		{
-//			stockExchangeRepository.saveAll(stockExchList);
-//			//company.addToCompExchList(stockExchList, compCode);
-//			company.addStockExcahnges(stockExchList);
-//		}
+	public Company saveCompany(@RequestBody /*Company company*/CompanySectorModel companySectorModel)
+	{		
+		Company company = companySectorModel.getCompany();
+		Sector sector = companySectorModel.getSector();
+		Sector existingSector = sectorRepository.findBySectName(sector.getSectName());
+		if(Objects.isNull(existingSector))
+		{
+			Sector newSector = sectorRepository.save(sector);
+			company.setSector(newSector);
+		}
+		else {
+			company.setSector(existingSector);
+		}
+		Company responseCompany = companyService.saveCompany(company);		
+		return responseCompany;	
 		
-		Company responseCompany = companyService.saveCompany(company);
-		
-		
-		return responseCompany;
-		
-		//return company;
 	}
-	
 	
 	
 	@GetMapping("/company")
@@ -89,30 +85,9 @@ public class CompanyController
 		return companyService.updateCompany(id, company);
 	}
 	
-	@PostMapping("/stock/{compId}")
-	public StockPrice saveStocks(@PathVariable("compId") Long id, @RequestBody StockPrice stockPrice)
-	{
-		stockPrice.setCompany(companyRepository.findById(id).get());
-		return stockPriceRepository.save(stockPrice);
-	}
 	
-	@GetMapping("/stock/{compCode}")
-	public List<StockPrice> getStocks(@PathVariable("compCode") String compCode)
-	{
-		return stockPriceRepository.findByCompCode(compCode);
-	}
 	
-	@PostMapping("/exchange")
-	public StockExchange saveExchange(@RequestBody StockExchange stockExchange)
-	{
-		return stockExchangeRepository.save(stockExchange);
-	}
 	
-	@GetMapping("/exchange")
-	public List<StockExchange> getExchange()
-	{
-		return stockExchangeRepository.findAll();
-	}
 	
 	@PostMapping("/compExch")
 	public CompExchMap saveCompExch(@RequestBody CompExch compExch)

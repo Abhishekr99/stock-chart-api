@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 
 import com.abhishek.stockchart.entity.Company;
 import com.abhishek.stockchart.entity.IpoDetails;
+import com.abhishek.stockchart.entity.Sector;
 import com.abhishek.stockchart.repository.CompanyRepository;
 import com.abhishek.stockchart.repository.IpoDetailsRepository;
+import com.abhishek.stockchart.repository.SectorRepository;
 
 @Service
 public class CompanyServiceImpl implements CompanyService
@@ -19,6 +21,9 @@ public class CompanyServiceImpl implements CompanyService
 	
 	@Autowired
 	private IpoDetailsRepository ipoDetailsRepository;
+	
+	@Autowired
+	private SectorRepository sectorRepository;
 	
 	@Override
 	public Company saveCompany(Company company) {
@@ -58,8 +63,8 @@ public class CompanyServiceImpl implements CompanyService
 		//updating ipo details
 		if(Objects.isNull(comp.getIpo()))
 		{
-			ipoDetailsRepository.save(company.getIpo());
-			comp.setIpo(company.getIpo());
+			//ipoDetailsRepository.save(company.getIpo());
+			comp.setIpo(ipoDetailsRepository.save(company.getIpo()));
 		}
 		else 
 		{
@@ -70,7 +75,25 @@ public class CompanyServiceImpl implements CompanyService
 			if(Objects.nonNull(company.getIpo().getOpenDateTime()))
 				comp.getIpo().setOpenDateTime(company.getIpo().getOpenDateTime());
 		}
-		
+		if(Objects.isNull(comp.getSector()))
+		{
+			Sector existingSector = sectorRepository.findBySectName(company.getSector().getSectName());
+			if(Objects.isNull(existingSector))
+			{
+				Sector newSector = sectorRepository.save(company.getSector());
+				comp.setSector(newSector);
+			}
+			else {
+				comp.setSector(existingSector);
+			}
+			
+		}
+		else {
+			if(Objects.nonNull(company.getSector().getSectName()))
+				comp.getSector().setSectName(company.getSector().getSectName());
+			if(Objects.nonNull(company.getSector().getSectBrief()))
+				comp.getSector().setSectBrief(company.getSector().getSectBrief());
+		}
 				
 		return companyRepository.save(comp);
 	}

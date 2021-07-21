@@ -23,7 +23,7 @@ public class StockPrice
 	private String exchName;
 	private String compCode;
 	//private LocalDateTime localdatetime;
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "comp_id", referencedColumnName = "compId")
 	private Company company;
 	private Date datee;

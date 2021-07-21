@@ -80,6 +80,18 @@ public class Company
 	public void setCompBrief(String compBrief) {
 		this.compBrief = compBrief;
 	}
+	
+	
+
+	public Sector getSector() {
+		return sector;
+	}
+
+	public void setSector(Sector sector) {
+		this.sector = sector;
+	}
+
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -120,6 +132,10 @@ public class Company
 	
 	private IpoDetails ipo;
 
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "sect_id", referencedColumnName = "sectId")	
+	private Sector sector;
+	
 	/*@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "comp_exch_map",
@@ -148,7 +164,8 @@ public class Company
 	private List<Companystockexchangemap> compstockmap;
 
 
-
+	
+	private StockExchange stockExchange;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnore
 	private Sector sector;
