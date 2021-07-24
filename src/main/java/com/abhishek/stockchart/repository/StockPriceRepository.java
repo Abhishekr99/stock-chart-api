@@ -4,7 +4,10 @@ import java.sql.Date;
 import java.time.LocalTime;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +17,11 @@ import com.abhishek.stockchart.model.StockPriceModel;
 @Repository
 public interface StockPriceRepository extends JpaRepository<StockPrice, Long>
 {
+//	@Transactional
+//	@Modifying
+//	@Query(value = "delete from StockPrice s where s.company.compId = ?1")
+//	public void deleteByCompId(Long compId);
+	
 	public List<StockPrice> findByCompCode(String compCode);
 	
 	@Query(

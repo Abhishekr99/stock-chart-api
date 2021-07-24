@@ -97,5 +97,11 @@ public class CompanyServiceImpl implements CompanyService
 				
 		return companyRepository.save(comp);
 	}
+
+	@Override
+	public void deactivateCompany(Long id) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

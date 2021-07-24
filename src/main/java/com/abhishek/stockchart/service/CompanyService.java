@@ -15,4 +15,6 @@ public interface CompanyService
 
 	public Company updateCompany(Long id, Company company);
 	
+	public void deactivateCompany(Long id);
+	
 }

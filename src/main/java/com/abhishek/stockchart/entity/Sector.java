@@ -10,13 +10,12 @@ import javax.persistence.Id;
 public class Sector 
 {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long sectId;
 
 	@Column(nullable = false)
 	private String sectName;
 
-	@Column(nullable = false)
 	private String sectBrief;
 
 	public Long getSectId() {

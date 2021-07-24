@@ -91,13 +91,24 @@ public class Company
 		this.sector = sector;
 	}
 
+	
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
 
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long compId;
 
-	
+	@Column(columnDefinition = "tinyint(1) default 1")
+	private boolean active;
 
 	//@Column(nullable = false)
 	private String compName;

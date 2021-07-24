@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +28,7 @@ import com.abhishek.stockchart.repository.StockPriceRepository;
 import com.abhishek.stockchart.service.CompanyService;
 
 
-
+@CrossOrigin(origins="*")
 @RestController
 public class CompanyController 
 {
@@ -45,6 +47,9 @@ public class CompanyController
 	
 	@Autowired
 	private CompExchMapRepository compExchMapRepository;
+	
+	@Autowired
+	private StockPriceRepository stockPriceRepository;
 	
 	@PostMapping("/company")
 	public Company saveCompany(@RequestBody /*Company company*/CompanySectorModel companySectorModel)
@@ -72,7 +77,13 @@ public class CompanyController
 		return companyService.getCompanyList();
 	}
 	
-	@GetMapping("/company/{name}")
+	@GetMapping("/company/{id}")
+	public Company getCompanyByName(@PathVariable("id") Long id)
+	{
+		return companyRepository.findById(id).get();
+	}
+	
+	@GetMapping("/company/name/{name}")
 	public Company getCompanyByName(@PathVariable("name") String name)
 	{
 		return companyService.getCompanyByName(name);
@@ -85,7 +96,17 @@ public class CompanyController
 		return companyService.updateCompany(id, company);
 	}
 	
+	@PostMapping("/company/deactivate/{id}")
+	public void deactivateCompany(@PathVariable("id") Long id)
+	{
+		companyRepository.deactivateCompany(id);
+	}
 	
+	@PostMapping("/company/activate/{id}")
+	public void activateCompany(@PathVariable("id") Long id)
+	{
+		companyRepository.activateCompany(id);
+	}
 	
 	
 	

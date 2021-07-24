@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import com.abhishek.stockchart.repository.CompExchMapRepository;
 import com.abhishek.stockchart.repository.CompanyRepository;
 import com.abhishek.stockchart.repository.StockPriceRepository;
 
+@CrossOrigin(origins="*")
 @RestController
 public class StockPriceController 
 {
@@ -49,6 +51,7 @@ public class StockPriceController
 	@GetMapping("/stock/sect/{sectId}")
 	public List<Object[]> getStocksBySectorId(@PathVariable("sectId") Long sectId)
 	{
+		@SuppressWarnings("unchecked")
 		List<Object[]> result=
 		em.createNativeQuery("select avg(share_price) as sect_price,sect_name,datee from company as c natural join sector as s natural join stock_price where s.sect_id=:id group by datee")
 		.setParameter("id", sectId)
