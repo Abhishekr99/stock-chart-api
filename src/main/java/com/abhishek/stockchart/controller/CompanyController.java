@@ -19,6 +19,7 @@ import com.abhishek.stockchart.entity.Sector;
 import com.abhishek.stockchart.entity.StockExchange;
 import com.abhishek.stockchart.entity.StockPrice;
 import com.abhishek.stockchart.model.CompExch;
+import com.abhishek.stockchart.model.CompanyModel;
 import com.abhishek.stockchart.model.CompanySectorModel;
 import com.abhishek.stockchart.repository.CompExchMapRepository;
 import com.abhishek.stockchart.repository.CompanyRepository;
@@ -77,6 +78,12 @@ public class CompanyController
 		return companyService.getCompanyList();
 	}
 	
+	@GetMapping("/company/name")
+	public List<CompanyModel> getCompanyNames()
+	{
+		return companyRepository.getAllCompanyNames();
+	}
+	
 	@GetMapping("/company/{id}")
 	public Company getCompanyByName(@PathVariable("id") Long id)
 	{
@@ -111,17 +118,24 @@ public class CompanyController
 	
 	
 	@PostMapping("/compExch")
-	public CompExchMap saveCompExch(@RequestBody CompExch compExch)
+	public String saveCompExch(@RequestBody CompExch compExch)
 	{
 		Company company = companyRepository.findById(compExch.getCompId()).get();
 		StockExchange stockExchange = stockExchangeRepository.findById(compExch.getExchId()).get();
+		CompExchMap existingCompExchMap = compExchMapRepository.getCompanyExchangeMap(compExch.getCompId(), compExch.getExchId());
+		if(Objects.isNull(existingCompExchMap)) {
+			CompExchMap compExchMap = new CompExchMap();
+			compExchMap.setCompany(company);
+			compExchMap.setStockExchange(stockExchange);
+			compExchMap.setCompCode(compExch.getCompCode());
+			compExchMapRepository.save(compExchMap);
+			return "sucessfully saved compExchMap";
+		}
+		else {
+			return "sucessfully saved compExchMap";
+		}
 		
-		CompExchMap compExchMap = new CompExchMap();
-		compExchMap.setCompany(company);
-		compExchMap.setStockExchange(stockExchange);
-		compExchMap.setCompCode(compExch.getCompCode());
 		
-		return compExchMapRepository.save(compExchMap);
 	}
 	
 	@GetMapping("/compExch")

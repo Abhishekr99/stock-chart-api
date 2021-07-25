@@ -1,6 +1,8 @@
 package com.abhishek.stockchart.repository;
 
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,6 +11,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.abhishek.stockchart.entity.Company;
+import com.abhishek.stockchart.model.CompanyModel;
+import com.abhishek.stockchart.model.StockPriceModel;
 
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Long>
@@ -25,4 +29,10 @@ public interface CompanyRepository extends JpaRepository<Company, Long>
 	@Modifying
 	@Query(value = "update Company c set c.active=true where c.compId = ?1")
 	public void activateCompany(Long compId);
+	
+	@Query(
+			value = "select c.compId as compId, c.compName as compName from Company c"
+			
+	)
+	List<CompanyModel> getAllCompanyNames();
 }

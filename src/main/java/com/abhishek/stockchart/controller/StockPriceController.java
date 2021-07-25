@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.abhishek.stockchart.entity.Company;
 import com.abhishek.stockchart.entity.StockPrice;
 import com.abhishek.stockchart.model.StockPriceModel;
 import com.abhishek.stockchart.repository.CompExchMapRepository;
@@ -35,10 +36,23 @@ public class StockPriceController
 	 private EntityManager em;
 	
 	@PostMapping("/stock/{compId}")
-	public StockPrice saveStocks(@PathVariable("compId") Long id, @RequestBody StockPrice stockPrice)
+	public StockPrice saveStock(@PathVariable("compId") Long id, @RequestBody StockPrice stockPrice)
 	{
 		stockPrice.setCompany(companyRepository.findById(id).get());
 		return stockPriceRepository.save(stockPrice);
+	}
+	
+	@PostMapping("/stocks/{compId}")
+	public String saveAllStocks(@PathVariable("compId") Long id, @RequestBody List<StockPrice> stockPriceList)
+	{
+		Company company = companyRepository.findById(id).get();
+		for(StockPrice stockPrice : stockPriceList)
+		{
+			stockPrice.setCompany(company);
+		}
+		
+		stockPriceRepository.saveAll(stockPriceList);
+		return "stocks saved sucessfully";
 	}
 	
 	@GetMapping("/stock/{compId}")
