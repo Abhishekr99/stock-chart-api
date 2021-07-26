@@ -16,7 +16,7 @@ import javax.persistence.OneToMany;
 public class StockExchange 
 {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long exchId;
 	
 	private String exchName;

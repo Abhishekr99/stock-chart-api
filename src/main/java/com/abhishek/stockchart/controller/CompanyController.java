@@ -15,14 +15,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.abhishek.stockchart.entity.CompExchMap;
 import com.abhishek.stockchart.entity.Company;
+import com.abhishek.stockchart.entity.IpoDetails;
 import com.abhishek.stockchart.entity.Sector;
 import com.abhishek.stockchart.entity.StockExchange;
 import com.abhishek.stockchart.entity.StockPrice;
 import com.abhishek.stockchart.model.CompExch;
 import com.abhishek.stockchart.model.CompanyModel;
 import com.abhishek.stockchart.model.CompanySectorModel;
+import com.abhishek.stockchart.model.IpoModel;
 import com.abhishek.stockchart.repository.CompExchMapRepository;
 import com.abhishek.stockchart.repository.CompanyRepository;
+import com.abhishek.stockchart.repository.IpoDetailsRepository;
 import com.abhishek.stockchart.repository.SectorRepository;
 import com.abhishek.stockchart.repository.StockExchangeRepository;
 import com.abhishek.stockchart.repository.StockPriceRepository;
@@ -51,6 +54,9 @@ public class CompanyController
 	
 	@Autowired
 	private StockPriceRepository stockPriceRepository;
+	
+	@Autowired
+	private IpoDetailsRepository ipoDetailsRepository;
 	
 	@PostMapping("/company")
 	public Company saveCompany(@RequestBody /*Company company*/CompanySectorModel companySectorModel)
@@ -142,5 +148,11 @@ public class CompanyController
 	public List<CompExchMap> getCompExch()
 	{
 		return compExchMapRepository.findAll();
+	}
+	
+	@GetMapping("/ipo")
+	public List<IpoDetails> getAllIpo()
+	{
+		return ipoDetailsRepository.findAll();
 	}
 }
