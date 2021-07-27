@@ -6,9 +6,9 @@ import java.time.LocalTime;
 
 public interface StockPriceModel 
 {
-	Long getStockId();
-	String getCompCode();
-	String getExchName();
+	//Long getStockId();
+	//String getCompCode();
+	//String getExchName();
 	Date getDatee();
 	LocalTime getTimee();
 	Float getSharePrice();

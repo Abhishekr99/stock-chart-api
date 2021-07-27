@@ -2,6 +2,7 @@ package com.abhishek.stockchart.controller;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -15,14 +16,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.GetMapping;
 import com.abhishek.stockchart.model.ERole;
 import com.abhishek.stockchart.model.Role;
 import com.abhishek.stockchart.model.User;
+import com.abhishek.stockchart.model.UserModel;
 import com.abhishek.stockchart.payload.request.LoginRequest;
 import com.abhishek.stockchart.payload.request.SignupRequest;
 import com.abhishek.stockchart.payload.response.JwtResponse;
@@ -125,5 +128,35 @@ public class AuthController {
 		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+	}
+	
+	@PostMapping("/update")
+	public ResponseEntity<?> updateUser(@RequestBody User user) {
+		
+
+		// Create new user's account
+		User existingUser = userRepository.findById(user.getId()).get();
+		if(Objects.nonNull(user.getUsername()) && !"".equalsIgnoreCase(user.getUsername()))
+			existingUser.setUsername(user.getUsername());
+		
+		if(Objects.nonNull(user.getEmail()) && !"".equalsIgnoreCase(user.getEmail()))
+			existingUser.setEmail(user.getEmail());
+		
+		if(Objects.nonNull(user.getPassword()) && !"".equalsIgnoreCase(user.getPassword()))
+			existingUser.setPassword(encoder.encode(user.getPassword()));
+		
+		userRepository.save(existingUser);
+
+		return ResponseEntity.ok(new MessageResponse("User updated successfully!"));
+	}
+	
+	@GetMapping("/user/{id}")
+	public ResponseEntity<?> getUser(@PathVariable("id") Long id) {
+		
+
+		// Create new user's account
+		UserModel user = userRepository.getUserById(id);
+		
+		return ResponseEntity.ok(user);
 	}
 }

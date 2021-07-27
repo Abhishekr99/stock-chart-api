@@ -25,7 +25,7 @@ public interface StockPriceRepository extends JpaRepository<StockPrice, Long>
 	public List<StockPrice> findByCompCode(String compCode);
 	
 	@Query(
-			value = "select s.stockId as stockId,s.exchName as exchName,s.compCode as compCode,s.datee as datee,s.timee as timee,s.sharePrice as sharePrice from StockPrice s where s.company.compId = ?1"
+			value = "select s.datee as datee,s.timee as timee,s.sharePrice as sharePrice from StockPrice s where s.company.compId = ?1"
 			//nativeQuery = true
 	)
 	List<StockPriceModel> getStockByCompanyId(Long compId);

@@ -55,7 +55,7 @@ public class CompanyController
 	private CompExchMapRepository compExchMapRepository;
 	
 	@Autowired
-	private StockPriceRepository stockPriceRepository;
+	private SectorRepository secRepository;
 	
 	@Autowired
 	private IpoDetailsRepository ipoDetailsRepository;
@@ -156,5 +156,11 @@ public class CompanyController
 	public List<IpoDetails> getAllIpo()
 	{
 		return ipoDetailsRepository.findAll();
+	}
+	
+	@GetMapping("/sector")
+	public List<Sector> getAllSector()
+	{
+		return sectorRepository.findAll();
 	}
 }
