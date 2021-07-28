@@ -31,6 +31,12 @@ public class User {
 	@NotBlank
 	@Size(max = 120)
 	private String password;
+	
+//	@Column(columnDefinition = "tinyint(1) default 0")
+//	private boolean enabled;
+//	
+//	@Column(name="verification_code", updatable = false)
+//	private String verificationCode; 
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(	name = "user_roles", 
@@ -86,4 +92,22 @@ public class User {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
+
+//	public boolean isEnabled() {
+//		return enabled;
+//	}
+//
+//	public void setEnabled(boolean enabled) {
+//		this.enabled = enabled;
+//	}
+//
+//	public String getVerificationCode() {
+//		return verificationCode;
+//	}
+//
+//	public void setVerificationCode(String verificationCode) {
+//		this.verificationCode = verificationCode;
+//	}
+	
+	
 }

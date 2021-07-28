@@ -35,6 +35,8 @@ import com.abhishek.stockchart.repository.UserRepository;
 import com.abhishek.stockchart.security.jwt.JwtUtils;
 import com.abhishek.stockchart.security.services.UserDetailsImpl;
 
+import net.bytebuddy.utility.RandomString;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
@@ -125,6 +127,9 @@ public class AuthController {
 		}
 
 		user.setRoles(roles);
+		
+//		String randomCode = RandomString.make(64);
+//		user.setVerificationCode(randomCode);
 		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
@@ -159,4 +164,6 @@ public class AuthController {
 		
 		return ResponseEntity.ok(user);
 	}
+	
+	
 }
