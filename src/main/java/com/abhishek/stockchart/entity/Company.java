@@ -17,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 
@@ -107,8 +108,8 @@ public class Company
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long compId;
 
-	@Column(columnDefinition = "tinyint(1) default 1")
-	private boolean active;
+	@Column
+	private boolean active=true;
 
 	//@Column(nullable = false)
 	private String compName;
