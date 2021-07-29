@@ -4,7 +4,7 @@
 `postGre branch` has all required routes for [deployed frontend webApp](https://stockchartify.herokuapp.com/) but uses PostGre DB hosted in heroku
 
 ## For running project locally:
-1] clone auth branch \
+1] clone `auth branch` \
 2] cd <project dir> \
 3] mvn spring-boot:run (or Run use IDE to run the main method as java application) \
 4] Open [http://localhost:8082](http://localhost:8082) to view it in the browser.
