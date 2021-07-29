@@ -67,7 +67,7 @@ public class StockPriceController
 	{
 		@SuppressWarnings("unchecked")
 		List<Object[]> result=
-		em.createNativeQuery("select avg(share_price) as sect_price,sect_name,datee from company as c natural join sector as s natural join stock_price where s.sect_id=:id group by datee")
+		em.createNativeQuery("select avg(share_price) as sect_price,sect_name,datee from company as c natural join sector as s natural join stock_price where s.sect_id=:id group by datee,sect_name")
 		.setParameter("id", sectId)
 		.getResultList();
 		
